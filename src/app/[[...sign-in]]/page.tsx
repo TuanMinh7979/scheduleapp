@@ -14,14 +14,11 @@ const LoginPage = () => {
 
   useEffect(() => {
     const role = user?.publicMetadata.role;
-    console.log(role)
-    const link = "/admin"
-    console.log(link);
-    
-    if (link) {
-      router.push(link);
+
+    if (role) {
+      router.push(`/${role}`);
     }
-  }, [user]);
+  }, [user, router]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-lamaSkyLight">

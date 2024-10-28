@@ -48,7 +48,7 @@ const SingleTeacherPage = async ({
           <div className="bg-lamaSky py-6 px-4 rounded-md flex-1 flex gap-4">
             <div className="w-1/3">
               <Image
-                src={teacher.img || "/noAvatar.png"}
+                src={teacher.img || "/teacherNoAvatar.jpg"}
                 alt=""
                 width={144}
                 height={144}

@@ -14,18 +14,19 @@ const Announcements = async () => {
   const data = await prisma.announcement.findMany({
     take: 3,
     orderBy: { date: "desc" },
-    where: {
-      ...(role !== "admin" && {
-        OR: [
-          { classId: null },
-          { class: roleConditions[role as keyof typeof roleConditions] || {} },
-        ],
-      }),
-    },
+    // where: {
+    //   ...(role !== "admin" && {
+    //     OR: [
+    //       { classId: null },
+    //       { class: roleConditions[role as keyof typeof roleConditions] || {} },
+    //     ],
+    //   }),
+    // },
   });
 
+  console.log("-------------><><><><><1213", data)
   return (
-    <div className="bg-white p-4 rounded-md">
+    <div className="bg-white p-4 rounded-md bg-blue">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Announcements</h1>
         <span className="text-xs text-gray-400">View All</span>
