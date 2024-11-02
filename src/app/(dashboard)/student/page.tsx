@@ -1,6 +1,7 @@
-// import CalendarComponent from '../components/CalendarComponent';
 
-import CanlendarComponent from "./CanlendarComponent";
+import { eventsData } from "@/lib/data";
+import CalendarComponent from "./CalendarComponent";
+
 
 export const calendarEvents = [
   {
@@ -21,7 +22,7 @@ export default function HomePage() {
   return (
     <div>
       {/* <h1>My Calendar</h1> */}
-      <CanlendarComponent />
+      <CalendarComponent events={eventsData} />
     </div>
   );
 }

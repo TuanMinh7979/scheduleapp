@@ -8,32 +8,21 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getISOWeek } from 'date-fns/fp/getISOWeek';
 import moment from 'moment';
 
-// Define the type for event data
-type Event = {
-    title: string;
-    allDay?: boolean;
-    start: Date;
-    end: Date;
-};
+type CalendarEvent = {
+    id: number,
+    title: string,
+    class: string,
+    date: Date,
+    startTime: Date,
+    endTime: Date,
+}
 
+interface IProps {
+    onSelectSlot: (slotInfo: { start: Date; end: Date }) => void; // Hàm để xử lý sự kiện chọn slot
+    events: CalendarEvent[];  // Mảng các sự kiện
+}
 const localizer = momentLocalizer(moment);
-
-const calendarEvents: Event[] = [
-    {
-        title: "Math Class",
-        allDay: false,
-        start: new Date(2024, 10, 28, 8, 0),
-        end: new Date(2024, 10, 28, 8, 45),
-    },
-    {
-        title: "Science Class",
-        allDay: false,
-        start: new Date(2024, 10, 29, 9, 0),
-        end: new Date(2024, 10, 29, 10, 0),
-    },
-];
-
-const CanlendarComponent: React.FC = () => {
+const CalendarComponent = (props: IProps) => {
     const [date, setDate] = useState(new Date());
     const [wnum, setWNum] = useState(1);
     const [view, setView] = useState<View>(Views.WORK_WEEK);
@@ -44,15 +33,12 @@ const CanlendarComponent: React.FC = () => {
 
 
     const handleNavigate = (newDate: Date, view: View) => {
-        setDate(newDate); // Update the current date
+        window.alert(newDate);
+        setDate(newDate);
+        const newWeekNumber = getISOWeek(newDate);
+        setWNum(newWeekNumber)
 
-        // Only update the week number in "work_week" view
-        if (view === "work_week") {
-            const newWeekNumber = getISOWeek(newDate);
-            setWNum(newWeekNumber)
 
-            console.log(`Navigated to week number: ${newWeekNumber}`);
-        }
     };
 
     const customTimeGutterFormat = (date: Date): string => {
@@ -63,35 +49,28 @@ const CanlendarComponent: React.FC = () => {
         return '';
     };
 
-    // Sử dụng `useCallback` và định nghĩa kiểu `slotInfo` để đảm bảo type-safety
-    const onSelectSlot =(slotInfo: SlotInfo) => {
 
-        console.log("--------------------")
 
-        window.alert(buildMessage(slotInfo));
-  
-    };
-  
     // Hàm này là ví dụ, định nghĩa nó theo nhu cầu của bạn
     const buildMessage = (slotInfo: SlotInfo): string => {
-      return `Selected slot from ${slotInfo.start.toLocaleString()} to ${slotInfo.end.toLocaleString()}`;
+        return `Selected slot from ${slotInfo.start.toLocaleString()} to ${slotInfo.end.toLocaleString()}`;
     };
 
     return (
         <div>
-            {wnum}
+            <span>Num of week : {wnum}</span>
             <Calendar
-                views={["month", "work_week", "day"]}
+                views={['work_week', 'month', 'week', 'day', 'agenda']}
                 view={view}
                 min={new Date(2025, 1, 0, 7, 0, 0)}
                 max={new Date(2025, 1, 0, 21, 0, 0)}
                 onView={handleOnChangeView}
                 localizer={localizer}
-                events={calendarEvents}
+                events={props.events}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 600 }}
-                date={date} // Set the current view date
+                date={date}
                 onNavigate={handleNavigate} // Update date on navigation
                 step={60} //  số phút 1 ô
                 timeslots={5} // mỗi ô có 5 step
@@ -100,11 +79,11 @@ const CanlendarComponent: React.FC = () => {
 
                 }}
                 selectable
-                onSelectSlot={onSelectSlot} // Gọi hàm khi click vào slot
+                onSelectSlot={props.onSelectSlot} // Gọi hàm khi click vào slot
             />
         </div>
     );
 }
 
 
-export default CanlendarComponent;
+export default CalendarComponent;

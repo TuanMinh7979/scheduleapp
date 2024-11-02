@@ -24,9 +24,7 @@ export type FormContainerProps = {
 const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
   let relatedData = {};
 
-  const { userId, sessionClaims } = auth();
-  const role = (sessionClaims?.metadata as { role?: string })?.role;
-  const currentUserId = userId;
+
 
   if (type !== "delete") {
     switch (table) {
@@ -60,15 +58,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         });
         relatedData = { classes: studentClasses, grades: studentGrades };
         break;
-      case "exam":
-        const examLessons = await prisma.lesson.findMany({
-          where: {
-            ...(role === "teacher" ? { teacherId: currentUserId! } : {}),
-          },
-          select: { id: true, name: true },
-        });
-        relatedData = { lessons: examLessons };
-        break;
+    
 
       default:
         break;
@@ -77,6 +67,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
 
   return (
     <div className="">
+    
       <FormModal
         table={table}
         type={type}

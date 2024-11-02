@@ -41,14 +41,13 @@ const columns = [
     accessor: "address",
     className: "hidden lg:table-cell",
   },
-  ...(role === "admin"
-    ? [
+  [
         {
           header: "Actions",
           accessor: "action",
         },
       ]
-    : []),
+  ,
 ];
 
 const renderRow = (item: ParentList) => (
@@ -69,12 +68,12 @@ const renderRow = (item: ParentList) => (
     <td className="hidden md:table-cell">{item.address}</td>
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" && (
+
           <>
             <FormContainer table="parent" type="update" data={item} />
             <FormContainer table="parent" type="delete" id={item.id} />
           </>
-        )}
+      
       </div>
     </td>
   </tr>
