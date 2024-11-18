@@ -57,7 +57,7 @@ const TeacherForm = ({
   }, [state, router, type, setOpen]);
 
   const { subjects } = relatedData;
-
+console.log(">>>>>>>>>>>>>>>>>{{{", relatedData)
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">

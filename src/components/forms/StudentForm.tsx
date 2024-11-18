@@ -68,7 +68,7 @@ const StudentForm = ({
   }, [state, router, type, setOpen]);
 
   const { grades, classes } = relatedData;
-
+  console.log(grades)
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">

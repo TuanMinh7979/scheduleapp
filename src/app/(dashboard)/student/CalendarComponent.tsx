@@ -7,19 +7,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getISOWeek } from 'date-fns/fp/getISOWeek';
 import moment from 'moment';
+import MyFormModal from '@/components/MyFormModal';
 
-type CalendarEvent = {
-    id: number,
-    title: string,
-    class: string,
-    date: Date,
-    startTime: Date,
-    endTime: Date,
-}
+
 
 interface IProps {
-    onSelectSlot: (slotInfo: { start: Date; end: Date }) => void; // Hàm để xử lý sự kiện chọn slot
-    events: CalendarEvent[];  // Mảng các sự kiện
+
+    events: any[];  // Mảng các sự kiện
 }
 const localizer = momentLocalizer(moment);
 const CalendarComponent = (props: IProps) => {
@@ -55,6 +49,8 @@ const CalendarComponent = (props: IProps) => {
     const buildMessage = (slotInfo: SlotInfo): string => {
         return `Selected slot from ${slotInfo.start.toLocaleString()} to ${slotInfo.end.toLocaleString()}`;
     };
+    const [openTrigger, setOpenTrigger] = useState(false)
+    const [eventItemData,setEventItemData] = useState({})
 
     return (
         <div>
@@ -79,7 +75,15 @@ const CalendarComponent = (props: IProps) => {
 
                 }}
                 selectable
-                onSelectSlot={props.onSelectSlot} // Gọi hàm khi click vào slot
+                onSelectSlot={(a) => { console.log("-------------->>>>>"); setOpenTrigger(true); setEventItemData(a) }} // Gọi hàm khi click vào slot
+            />
+            <MyFormModal
+                setOpenTrigger={setOpenTrigger}
+                openTrigger={openTrigger}
+                table="schedule"
+                type="update"
+                data={eventItemData}
+
             />
         </div>
     );
