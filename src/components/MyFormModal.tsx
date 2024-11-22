@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 import { FormContainerProps } from "./FormContainer";
-import ScheduleForm from "./forms/ScheduleForm";
+import EventForm from "./forms/EventForm";
 import { MyFormContainerProps } from "./MyFormContainer";
 import { error } from "console";
 
@@ -28,7 +28,7 @@ const forms: {
   ) => JSX.Element;
 } = {
   schedule: (setOpen, type, data, relatedData) => (
-    <ScheduleForm
+    <EventForm
       type={type}
       data={data}
       setOpen={setOpen}

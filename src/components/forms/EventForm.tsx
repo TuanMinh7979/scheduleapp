@@ -20,7 +20,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const ScheduleForm = ({
+const EventForm = ({
   type,
   data,
   setOpen,
@@ -102,4 +102,4 @@ const ScheduleForm = ({
   );
 };
 
-export default ScheduleForm;
+export default EventForm;
