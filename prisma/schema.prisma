@@ -36,6 +36,7 @@ model Class {
 model Subject {
   id   Int    @id @default(autoincrement()) // id là Int và tự tăng
   name String
+  total Int       @default(0)
 }
 
 // Model Event
@@ -46,6 +47,7 @@ model Event {
   classId             Int
   subjectAndTeacherId Int
   dayPartId           Int // Thêm trường dayPartId, kiểu Int
+  mode                 String    @default("online")
 
 }
 
