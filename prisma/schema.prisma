@@ -19,12 +19,7 @@ model Admin {
   username String
 }
 
-// Model Teacher
-model Teacher {
-  id   Int     @id @default(autoincrement()) // id là Int và tự tăng
-  name String
-  sex  UserSex
-}
+
 
 // Model Class
 model Class {
@@ -37,6 +32,13 @@ model Subject {
   id   Int    @id @default(autoincrement()) // id là Int và tự tăng
   name String
   total Int       @default(0)
+}
+
+// Model Teacher
+model Teacher {
+  id   Int     @id @default(autoincrement()) // id là Int và tự tăng
+  name String
+  sex  UserSex
 }
 
 // Model Event

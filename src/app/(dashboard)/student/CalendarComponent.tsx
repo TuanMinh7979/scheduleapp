@@ -1,15 +1,13 @@
 "use client"; // Force client-side rendering for Next.js compatibility
-
-import { Calendar, DateCellWrapperProps, dateFnsLocalizer, EventProps, momentLocalizer, SlotInfo, View, Views } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import { enUS } from 'date-fns/locale';
+import { Calendar, dateFnsLocalizer, EventProps, momentLocalizer, SlotInfo, View, Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Children, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { getISOWeek } from 'date-fns/fp/getISOWeek';
 import moment from 'moment';
 import MyFormModal from '@/components/MyFormModal';
 import React from 'react';
-import { Tooltip } from 'react-tooltip';
+import { format } from 'date-fns';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 
 
 
@@ -20,24 +18,11 @@ interface IProps {
 
 
 
-// const eventStyleGetter = (
-//     event: CustomEvent,
-//     start: Date,
-//     end: Date,
-//     isSelected: boolean
-// ): React.CSSProperties => {
-//     const backgroundColor = event.type === 'meeting' ? 'lightblue' : 'lightgreen';
-//     return {
-//         backgroundColor,
-//         borderRadius: '4px',
-//         color: 'black',
-//         border: 'none',
-//         display: 'block',
-//     };
-// };
 
 
-const CustomEvent: React.FC<EventProps<CustomEvent>> = ({ event }) => {
+const CustomEvent: React.FC<EventProps<any>> = ({ event }) => {
+
+
     return (
         <div
             className='event-custom-content'
@@ -45,10 +30,10 @@ const CustomEvent: React.FC<EventProps<CustomEvent>> = ({ event }) => {
                 height: "100%"
             }}
         >
-            <strong>title</strong>
+            <p>{event.teacherName}</p>
             <br />
-            <strong>title</strong>
-            <strong>title</strong>
+            <p>{event.subjetName}</p>
+            <strong>{event.mode}</strong>
 
         </div>
     );
@@ -56,9 +41,11 @@ const CustomEvent: React.FC<EventProps<CustomEvent>> = ({ event }) => {
 
 const localizer = momentLocalizer(moment);
 const CalendarComponent = (props: IProps) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [date, setDate] = useState(new Date());
-    const [wnum, setWNum] = useState(1);
-    const [view, setView] = useState<View>(Views.WORK_WEEK);
+
+    const [view, setView] = useState<View>(Views.WEEK);
 
     const handleOnChangeView = (selectedView: View) => {
         setView(selectedView);
@@ -66,12 +53,9 @@ const CalendarComponent = (props: IProps) => {
 
 
     const handleNavigate = (newDate: Date, view: View) => {
-        window.alert(newDate);
         setDate(newDate);
-        const newWeekNumber = getISOWeek(newDate);
-        setWNum(newWeekNumber)
-
-
+        console.log("--------", date)
+        router.push(`/student?classId=${searchParams.get("classId")}&currentDate=${format(newDate, 'MM-dd-yy')}`, undefined);
     };
 
     const customTimeGutterFormat = (date: Date): string => {
@@ -88,18 +72,20 @@ const CalendarComponent = (props: IProps) => {
     const [openTrigger, setOpenTrigger] = useState(false)
     const [eventItemData, setEventItemData] = useState({})
 
+
+    console.log(props.events)
+
+
     return (
         <div>
 
             <Calendar
-                // eventPropGetter={(event, start, end, isSelected) => ({
-                //     style: eventStyleGetter(event, start, end, isSelected),
 
-                // })}
+
                 components={{
                     event: CustomEvent, // Gắn custom component vào đây
                 }}
-                views={['work_week', 'week', 'month', 'day', 'agenda']}
+                views={['work_week', 'week', 'day', 'agenda']}
                 view={view}
                 min={new Date(2025, 1, 0, 7, 0, 0)}
                 max={new Date(2025, 1, 0, 22, 0, 0)}
@@ -119,7 +105,7 @@ const CalendarComponent = (props: IProps) => {
 
                 }}
                 selectable
-                onSelectSlot={(a) => { console.log("-------------->>>>>"); setOpenTrigger(true); setEventItemData(a) }} // Gọi hàm khi click vào slot
+                onSelectSlot={(a) => { setOpenTrigger(true); setEventItemData(a) }} // Gọi hàm khi click vào slot
             />
             <MyFormModal
                 setOpenTrigger={setOpenTrigger}

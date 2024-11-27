@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from 'react';
 
 const SideClassList = ({
@@ -7,7 +7,7 @@ const SideClassList = ({
 }: {
   data: { name: string, id: number }[];
 }) => {
-  
+
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -15,11 +15,11 @@ const SideClassList = ({
   const filteredData = data.filter((classItem) =>
     classItem.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  const searchParams = useSearchParams();
   // Hàm này để chuyển hướng đến trang khác kèm `searchParams`
   const handleClassClick = (classId: number) => {
     // Chuyển đến trang `/class` với tham số search `classId`
-    router.push(`/student?classId=${classId}`, undefined );
+    router.push(`/student?classId=${classId}&currentDate=${searchParams.get("currentDate")}`, undefined);
   };
 
   return (

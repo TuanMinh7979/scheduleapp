@@ -77,7 +77,7 @@ const MyFormModal = ({
     return <>{forms[table](setOpenTrigger, "create", data, relatedData)}</>
 
   };
-console.log(data);
+
 
   return (
     <>
