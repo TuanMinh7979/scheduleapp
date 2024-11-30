@@ -7,15 +7,22 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
-import { FormContainerProps } from "./FormContainer";
+
 import EventForm from "./forms/EventForm";
-import { MyFormContainerProps } from "./MyFormContainer";
-import { error } from "console";
 
 
 
 
 
+
+export type MyFormContainerProps = {
+  table: "schedule"
+  type: "create" | "update" | "delete";
+  data?: any;
+  id?: number | string;
+  openTrigger?: boolean
+  setOpenTrigger:any
+};
 
 // TODO: OTHER FORMS
 

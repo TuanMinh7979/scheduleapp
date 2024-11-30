@@ -1,13 +1,14 @@
 
 
 import { eventsData } from "@/lib/data";
-import CalendarComponent from "./CalendarComponent";
-import MyFormContainer from "@/components/MyFormContainer";
+
+
 import MyFormModal from "@/components/MyFormModal";
 import SideClassList from "@/components/SideClassList";
 import prisma from "@/lib/prisma";
 import { format } from 'date-fns';
 import { Prisma } from "@prisma/client";
+import CalendarComponent from "@/components/CalendarComponent";
 
 interface InputEvent {
   id: number,
