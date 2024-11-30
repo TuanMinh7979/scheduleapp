@@ -27,13 +27,15 @@ const CustomEvent: React.FC<EventProps<any>> = ({ event }) => {
         <div
             className='event-custom-content'
             style={{
-                height: "100%"
+                height: "100%",
+                backgroundColor: 'lightblue'
             }}
         >
-            <p>{event.teacherName}</p>
+            <p>1{event.teacherName}</p>
             <br />
-            <p>{event.subjetName}</p>
-            <strong>{event.mode}</strong>
+            <p>2{event.subjectName}</p>
+            <br />
+            <strong>3{event.mode}</strong>
 
         </div>
     );
@@ -70,9 +72,28 @@ const CalendarComponent = (props: IProps) => {
 
 
     const [openTrigger, setOpenTrigger] = useState(false)
-    const [eventItemData, setEventItemData] = useState({})
+    const [newEventFormInitData,setNewEventFormInitData] = useState({})
 
 
+    useEffect(() => {
+        // Fetch dữ liệu từ API khi classId thay đổi
+        const fetchFormData = async () => {
+            try {
+                const response = await fetch(`/api/classevents/${searchParams.get("classId")}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+           
+                const result: any = await response.json();
+                console.log(result);
+                setNewEventFormInitData(result) 
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchFormData();
+    }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
     console.log(props.events)
 
 
@@ -105,14 +126,14 @@ const CalendarComponent = (props: IProps) => {
 
                 }}
                 selectable
-                onSelectSlot={(a) => { setOpenTrigger(true); setEventItemData(a) }} // Gọi hàm khi click vào slot
+                onSelectSlot={(a) => { setOpenTrigger(true); }} // Gọi hàm khi click vào slot
             />
             <MyFormModal
                 setOpenTrigger={setOpenTrigger}
                 openTrigger={openTrigger}
                 table="schedule"
                 type="update"
-                data={eventItemData}
+                data={{newEventFormInitData}}
 
             />
         </div>

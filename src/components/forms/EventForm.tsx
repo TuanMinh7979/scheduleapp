@@ -63,31 +63,28 @@ const EventForm = ({
       router.refresh();
     }
   }, [state, router, type, setOpen]);
-  const subjects = [
-    { id: 1, teacherName: 'Mr. Smith', teacherId: 101, name: 'Mathematics' },
-    { id: 2, teacherName: 'Ms. Johnson', teacherId: 102, name: 'Science' },
-    { id: 3, teacherName: 'Dr. Brown', teacherId: 103, name: 'History' },
-    { id: 4, teacherName: 'Mrs. Davis', teacherId: 104, name: 'Art' }
-  ];
-
+  console.log(data)
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new class" : "Update the class"}
+        {type === "create" ? "Create a new event" : "Update the event"}
       </h1>
 
       <div className="flex justify-between flex-wrap gap-4">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
-          <div className="bg-blue-500 text-white p-4 rounded-lg">Item 1</div>
-          <div className="bg-green-500 text-white p-4 rounded-lg">Item 2</div>
-          <div className="bg-red-500 text-white p-4 rounded-lg">Item 3</div>
-          <div className="bg-yellow-500 text-white p-4 rounded-lg">Item 4</div>
-          <div className="bg-purple-500 text-white p-4 rounded-lg">Item 5</div>
-          <div className="bg-indigo-500 text-white p-4 rounded-lg">Item 6</div>
-          <div className="bg-teal-500 text-white p-4 rounded-lg">Item 7</div>
-          <div className="bg-orange-500 text-white p-4 rounded-lg">Item 8</div>
+        <div className="flex flex-col gap-2 w-full ">
+          <label className="text-xs text-gray-500">Sex</label>
+          <select
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+
+            defaultValue={1}
+          >
+            {data.newEventFormInitData.map((el: any) => <><option value={1}>{el.subjectName} --- {el.teacherName} --- {el.eventCnt}/{el.subjectTotal}</option></>)}
+
+
+          </select>
+
         </div>
 
 
