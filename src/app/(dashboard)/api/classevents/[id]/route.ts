@@ -44,7 +44,7 @@ export async function GET(
           sub."name" AS "subjectName",
           tea."name" AS "teacherName",
           sub."total" AS "subjectTotal",
-          COUNT(e."id") AS "eventCnt" 
+          0 AS "eventCnt" 
         FROM
           "SubjectAndTeacher" sat
         LEFT JOIN "Event" e
