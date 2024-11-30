@@ -37,14 +37,14 @@ export async function GET(
 
         UNION ALL
         
-          SELECT
+        SELECT
           sat."id",
           sat."subjectId",
           sat."teacherId",
           sub."name" AS "subjectName",
           tea."name" AS "teacherName",
           sub."total" AS "subjectTotal",
-          0 AS "eventCnt" 
+          COUNT(e."id") AS "eventCnt" 
         FROM
           "SubjectAndTeacher" sat
         LEFT JOIN "Event" e
@@ -55,6 +55,8 @@ export async function GET(
           ON sat."teacherId" = tea."id"
         WHERE
           e."classId" != ${parseInt(id)}  -- Lọc theo classId
+        GROUP BY
+          sat."id", sat."subjectId", sat."teacherId","subjectName","teacherName","subjectTotal"
       `
     );
 
