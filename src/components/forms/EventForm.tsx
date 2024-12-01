@@ -49,10 +49,7 @@ const EventForm = ({
     }
   );
 
-  const onSubmit = handleSubmit((data) => {
 
-    formAction(data);
-  });
 
   const router = useRouter();
 
@@ -64,38 +61,69 @@ const EventForm = ({
     }
   }, [state, router, type, setOpen]);
   console.log(data)
+  const relatedItems = [
+    { id: 1, num: 10, date: "01/12/2024", week: 48 },
+    { id: 2, num: 15, date: "02/12/2024", week: 49 },
+    { id: 3, num: 20, date: "03/12/2024", week: 50 },
+    { id: 4, num: 30, date: "04/12/2024", week: 51 },
+    { id: 5, num: 25, date: "05/12/2024", week: 52 },
+    { id: 1, num: 10, date: "01/12/2024", week: 48 },
+    { id: 2, num: 15, date: "02/12/2024", week: 49 },
+    { id: 3, num: 20, date: "03/12/2024", week: 50 },
+    { id: 4, num: 30, date: "04/12/2024", week: 51 },
+    { id: 5, num: 25, date: "05/12/2024", week: 52 },
+  ];
+
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new event" : "Update the event"}
-      </h1>
-
-      <div className="flex justify-between flex-wrap gap-4">
-
-        <div className="flex flex-col gap-2 w-full ">
-          <label className="text-xs text-gray-500">Sex</label>
-          <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-
-            defaultValue={1}
-          >
-            {data.newEventFormInitData.map((el: any) => <><option value={1}>{el.subjectName} --- {el.teacherName} --- {el.eventCnt}/{el.subjectTotal}</option></>)}
+    <>
+      <div className="flex-9 flex flex-row h-full w-[1000px] h-[600px]">
+        {/* Phần bên trái (70%) */}
+        <div className="flex-7 w-7/10 bg-gray-100 p-4 w-[70%] ">
+          <div className="grid grid-cols-5 gap-4">
+            {data.newEventFormInitData.map((el: any) =>
+              <div className="w-full h-32 bg-gray-200 border border-gray-300"></div>
+            )}
 
 
-          </select>
+
+            {/* Có thể thêm nhiều dòng tương tự */}
+          </div>
+        </div>
+
+        {/* Phần bên phải (30%) */}
+
+        <div className="flex-3 bg-gray-200 p-4 w-[30%] ">
+          <h2 className="font-bold text-lg ">Danh sách liên quan</h2>
+          <div className="mt-4 max-h-[500px] overflow-y-scroll">
+            {relatedItems.length > 0 ? (
+              relatedItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white border border-gray-300 p-4 mb-2 rounded"
+                >
+                  <p>Num: {item.num}</p>
+                  <p>Date: {item.date}</p>
+                  <p>Week: {item.week}</p>
+                </div>
+              ))
+            ) : (
+              <p>Vui lòng chọn một item để hiển thị thông tin.</p>
+            )}
+          </div>
 
         </div>
 
 
+
       </div>
-      {state.error && (
-        <span className="text-red-500">Something went wrong!</span>
-      )}
-      <button className="bg-blue-400 text-white p-2 rounded-md">
-        {type === "create" ? "Create" : "Update"}
-      </button>
-    </form>
+      {/* Phần dưới (10%) */}
+      <div className="flex-1 flex justify-center gap-4 p-4">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded">Button 1</button>
+        <button className="bg-gray-500 text-white px-4 py-2 rounded">Button 2</button>
+      </div>
+
+    </>
   );
 };
 

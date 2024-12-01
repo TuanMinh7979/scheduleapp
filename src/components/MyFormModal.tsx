@@ -21,7 +21,7 @@ export type MyFormContainerProps = {
   data?: any;
   id?: number | string;
   openTrigger?: boolean
-  setOpenTrigger:any
+  setOpenTrigger: any
 };
 
 // TODO: OTHER FORMS
@@ -89,17 +89,24 @@ const MyFormModal = ({
   return (
     <>
 
-      {openTrigger && <div className="bg-blue-200 border-green-700 w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
-        <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+      {openTrigger && <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg p-8 ">
+        <div className="content h-full  overflow-y-auto">
           <Form />
-          <div
-            className="absolute top-4 right-4 cursor-pointer"
-            onClick={() => setOpenTrigger(false)}
-          >
-            <Image src="/close.png" alt="" width={14} height={14} />
-          </div>
+
         </div>
-      </div>}
+        <div
+          className="absolute top-4 right-4 cursor-pointer"
+          onClick={() => setOpenTrigger(false)}
+        >
+          <Image src="/close.png" alt="" width={14} height={14} />
+        </div>
+      </div>
+
+      }
+
+
+
+
 
 
     </>

@@ -115,7 +115,7 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
 
-      <div className="border  border-green w-9/12  ">
+      <div className="border   w-9/12  ">
         <CalendarComponent events={convertEvents(eventsData)} />
       </div>
 
