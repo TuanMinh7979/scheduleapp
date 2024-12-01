@@ -80,9 +80,24 @@ const EventForm = ({
       <div className="flex-9 flex flex-row h-full w-[1000px] h-[600px]">
         {/* Phần bên trái (70%) */}
         <div className="flex-7 w-7/10 bg-gray-100 p-4 w-[70%] ">
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             {data.newEventFormInitData.map((el: any) =>
-              <div className="w-full h-32 bg-gray-200 border border-gray-300"></div>
+              <div className="w-full max-h-40 bg-white border border-gray-300 shadow-md rounded-lg p-4 flex flex-col justify-between overflow-hidden ">
+                {/* Phần thông tin chính */}
+                <div className="space-y-2 overflow-hidden text-ellipsis">
+                  <h3 className="text-sm font-semibold text-gray-800 truncate">{el.subjectName}</h3>
+                  <p className="text-xs text-gray-600 truncate">{el.teacherName}</p>
+                  <p className="text-xs text-gray-600">
+                    {el.eventCnt}/{el.subjectTotal}
+                  </p>
+                </div>
+
+                {/* Nút Apply */}
+                <button className="mt-2 bg-blue-500 text-white font-medium py-1 px-3 rounded hover:bg-blue-600">
+                  Apply
+                </button>
+              </div>
+
             )}
 
 

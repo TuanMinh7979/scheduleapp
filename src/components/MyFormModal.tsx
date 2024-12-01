@@ -89,18 +89,21 @@ const MyFormModal = ({
   return (
     <>
 
-      {openTrigger && <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg p-8 ">
-        <div className="content h-full  overflow-y-auto">
-          <Form />
+      {openTrigger && <>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg p-8 ">
+          <div className="content h-full  overflow-y-auto">
+            <Form />
 
+          </div>
+          <div
+            className="absolute top-4 right-4 cursor-pointer"
+            onClick={() => setOpenTrigger(false)}
+          >
+            <Image src="/close.png" alt="" width={14} height={14} />
+          </div>
         </div>
-        <div
-          className="absolute top-4 right-4 cursor-pointer"
-          onClick={() => setOpenTrigger(false)}
-        >
-          <Image src="/close.png" alt="" width={14} height={14} />
-        </div>
-      </div>
+      </>
 
       }
 

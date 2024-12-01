@@ -6,13 +6,13 @@ import { Prisma } from "@prisma/client";
 // API Route handler
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { classId: string } }
 ) {
-  const { id } = params; // Lấy giá trị id từ URL
-  console.log(id);
+  const { classId } = params; // Lấy giá trị classId từ URL
+  console.log(classId);
 
   try {
-    const result = await prisma.$queryRaw<any[]>(
+    const result: any = await prisma.$queryRaw<any[]>(
       Prisma.sql`
         SELECT
           sat."id",
@@ -31,7 +31,7 @@ export async function GET(
         LEFT JOIN "Teacher" tea
           ON sat."teacherId" = tea."id"
         WHERE
-          e."classId" = ${parseInt(id)}  -- Lọc theo classId
+          e."classId" = ${parseInt(classId)}  -- Lọc theo classId
         GROUP BY
           sat."id", sat."subjectId", sat."teacherId","subjectName","teacherName","subjectTotal"
 
@@ -54,18 +54,18 @@ export async function GET(
         LEFT JOIN "Teacher" tea
           ON sat."teacherId" = tea."id"
         WHERE
-          e."classId" != ${parseInt(id)}  -- Lọc theo classId
+          e."classId" != ${parseInt(classId)}  -- Lọc theo classId
         GROUP BY
           sat."id", sat."subjectId", sat."teacherId","subjectName","teacherName","subjectTotal"
       `
     );
 
 
-  // Chuyển đổi BigInt thành Number
-  const normalizedResult = result.map(row => ({
-    ...row,
-    eventCnt: Number(row.eventCnt) // Đảm bảo eventCnt là kiểu Number
-  }));
+    // Chuyển đổi BigInt thành Number
+    const normalizedResult = result.map((row: any) => ({
+      ...row,
+      eventCnt: Number(row.eventCnt) // Đảm bảo eventCnt là kiểu Number
+    }));
     if (!result) {
       return Response.json({ message: 'not found' }, { status: 404 });
     }
@@ -81,7 +81,7 @@ export async function GET(
 
 
 
-  
+
 
 
 

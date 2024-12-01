@@ -79,7 +79,7 @@ const CalendarComponent = (props: IProps) => {
         // Fetch dữ liệu từ API khi classId thay đổi
         const fetchFormData = async () => {
             try {
-                const response = await fetch(`/api/classevents/${searchParams.get("classId")}`);
+                const response = await fetch(`/api/subjectandteachers-by_class/${searchParams.get("classId")}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
