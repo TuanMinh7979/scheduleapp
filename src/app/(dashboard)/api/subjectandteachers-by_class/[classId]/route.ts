@@ -15,7 +15,7 @@ export async function GET(
     const result: any = await prisma.$queryRaw<any[]>(
       Prisma.sql`
         SELECT
-          sat."id",
+          sat."id" AS "satId",
           sat."subjectId",
           sat."teacherId",
           sub."name" AS "subjectName",
@@ -38,13 +38,13 @@ export async function GET(
         UNION ALL
         
         SELECT
-          sat."id",
+          sat."id" AS "satId",
           sat."subjectId",
           sat."teacherId",
           sub."name" AS "subjectName",
           tea."name" AS "teacherName",
           sub."total" AS "subjectTotal",
-          0 AS "eventCnt" 
+          0 AS "eventCnt"
         FROM
           "SubjectAndTeacher" sat
         LEFT JOIN "Event" e

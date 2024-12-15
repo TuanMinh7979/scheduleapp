@@ -29,7 +29,7 @@ interface InputEvent {
 const HomePage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
 
   const classes = await prisma.class.findMany();
-  const classId = searchParams.classId || '1'; // Mặc định '1'
+  const classId = searchParams.classId; // Mặc định '1'
   const currentDate = searchParams.currentDate || format(new Date(), 'MM-dd-yy'); // Mặc định ngày hôm nay
 
 
@@ -56,10 +56,12 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
   const { startDate, endDate } = getStartAndEndOfWeek(currentDate)
-
-  const homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
-    Prisma.sql
-      `SELECT
+  let homeDataEvents = []
+  console.log(classId)
+  if (classId && parseInt(classId)) {
+    homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
+      Prisma.sql
+        `SELECT
       e.id AS "id",
       e.name AS "name",
       e.day AS "day",
@@ -73,10 +75,33 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
     JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
     JOIN "Subject" AS s ON st."subjectId" = s.id
     JOIN "Teacher" AS t ON st."teacherId" = t.id
-    WHERE e."classId" = ${Number(classId)}
-      AND e."day" BETWEEN ${startDate} AND ${endDate}
+WHERE
+    e."classId" = ${parseInt(classId)} AND 
+    e."day" BETWEEN ${startDate} AND ${endDate}
     `
-  )
+    )
+  } else {
+    homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
+      Prisma.sql
+        `SELECT
+      e.id AS "id",
+      e.name AS "name",
+      e.day AS "day",
+      e."classId" AS "classId",
+      e."dayPartId" AS "dayPartId",
+      e."mode" AS "mode",
+      s.name AS "subjectName",
+      t.name AS "teacherName"
+
+    FROM "Event" AS e
+    JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
+    JOIN "Subject" AS s ON st."subjectId" = s.id
+    JOIN "Teacher" AS t ON st."teacherId" = t.id
+WHERE
+       e."day" BETWEEN ${startDate} AND ${endDate}
+    `)
+  }
+
 
 
 

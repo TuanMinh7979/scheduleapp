@@ -68,10 +68,10 @@ export const getPartIdOfDay = (hourTime: number): number => {
 }
 
 // Định nghĩa kiểu cho eventCnt
-export type ShowEventForAClassType = {
+export type AvaiSatByClassIdType = {
 
   eventCnt?: number;
-  id?: number;          // ID của sự kiện
+  satId?: number;          // ID của sự kiện
   subjectId?: number;   // ID của môn học
   subjectName?: string; // Tên môn học
   subjectTotal?: number; // Tổng số môn học
@@ -80,14 +80,14 @@ export type ShowEventForAClassType = {
 }
 
 export type HomeDataEvent = {
-  id?: number;             // ID của sự kiện
-  name?: string;           // Tên của sự kiện
+  id?: number;             // ID của sự kiện   // Tên của sự kiện
   day?: string;            // Ngày (ISO 8601 format)
   classId?: number;        // ID của lớp học
   dayPartId?: number;      // ID của phần trong ngày (ví dụ: buổi sáng, chiều)
   mode?: "online" | "offline"; // Chế độ học (chỉ nhận "online" hoặc "offline")
   subjectName?: string;    // Tên môn học
   teacherName?: string;    // Tên giáo viên
+  satId?: number
 };
 
 export const convertEvents = (inputEvents: InputEvent[] | any[]): any[] => {

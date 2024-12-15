@@ -70,7 +70,7 @@ const CalendarComponent = (props: IProps) => {
 
 
     const [openTrigger, setOpenTrigger] = useState(false)
-    const [eventsByClassId, setEventsByClassId] = useState({})
+    const [avaiSatByClassId, setAvaiSatByClassId] = useState({})
     const [choosedCell, setChoosedCell] = useState({})
     const dispatch = useAppDispatch();
     const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
@@ -88,9 +88,9 @@ const CalendarComponent = (props: IProps) => {
                 }
 
                 const result: any = await response.json();
-                console.log(result)
+        
                 dispatch(setEvents(props.homeDataEvents))
-                setEventsByClassId(result)
+                setAvaiSatByClassId(result)
             } catch (error) {
                 console.log(error)
             }
@@ -98,11 +98,11 @@ const CalendarComponent = (props: IProps) => {
 
         fetchFormData();
     }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
-    console.log(props.homeDataEvents)
+    console.log(eventsRedux)
 
 
 
-  
+
 
     return (
         <div>
@@ -155,7 +155,7 @@ const CalendarComponent = (props: IProps) => {
                 table="schedule"
                 type="update"
                 data={{
-                    eventsByClassId, choosedCell
+                    avaiSatByClassId, choosedCell
                 }}
 
             />
