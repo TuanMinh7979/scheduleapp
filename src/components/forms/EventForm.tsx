@@ -19,6 +19,9 @@ import { useFormState } from "react-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { setEvents, useAppDispatch, useAppSelector } from "@/store/events-slice";
+import { ShowEventForAClassType } from "@/lib/utils";
+import { RootState } from "@/store/store";
 
 const EventForm = ({
   type,
@@ -60,7 +63,7 @@ const EventForm = ({
       router.refresh();
     }
   }, [state, router, type, setOpen]);
-  console.log(data)
+
   const relatedItems = [
     { id: 1, num: 10, date: "01/12/2024", week: 48 },
     { id: 2, num: 15, date: "02/12/2024", week: 49 },
@@ -73,7 +76,48 @@ const EventForm = ({
     { id: 4, num: 30, date: "04/12/2024", week: 51 },
     { id: 5, num: 25, date: "05/12/2024", week: 52 },
   ];
+  const dispatch = useAppDispatch();
+  const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
+  const handleClick = () => {
+    console.log(eventsRedux.data)
+    dispatch(setEvents([
+      {
+        
+        "id": 1,
+        "name": "Math Class Event",
+        "day": "2024-12-14T17:00:00.000Z",
+        "classId": 1,
+        "dayPartId": 1,
+        "mode": "online",
+        "subjectName": "Mathematics",
+        "teacherName": "John Doe"
+      },
+      {
+       
+        "id": 4,
+        "name": "Math Class Event",
+        "day": "2024-12-15T17:00:00.000Z",
+        "classId": 1,
+        "dayPartId": 1,
+        "mode": "online",
+        "subjectName": "Mathematics",
+        "teacherName": "John Doe"
+      },
+      {
+        
+        "id": 5,
+        "name": "Math Class Event",
+        "day": "2024-12-15T17:00:00.000Z",
+        "classId": 1,
+        "dayPartId": 2,
+        "mode": "online",
+        "subjectName": "Mathematics",
+        "teacherName": "John Doe"
+      }
+    ]
+    ))
 
+  }
 
   return (
     <>
@@ -81,7 +125,7 @@ const EventForm = ({
         {/* Phần bên trái (70%) */}
         <div className="flex-7 w-7/10 bg-gray-100 p-4 w-[70%] ">
           <div className="grid grid-cols-3 gap-4">
-            {data.newEventFormInitData.map((el: any) =>
+            {data.eventsByClassId.map((el: any) =>
               <div className="w-full max-h-40 bg-white border border-gray-300 shadow-md rounded-lg p-4 flex flex-col justify-between overflow-hidden ">
                 {/* Phần thông tin chính */}
                 <div className="space-y-2 overflow-hidden text-ellipsis">
@@ -93,7 +137,7 @@ const EventForm = ({
                 </div>
 
                 {/* Nút Apply */}
-                <button className="mt-2 bg-blue-500 text-white font-medium py-1 px-3 rounded hover:bg-blue-600">
+                <button onClick={() => handleClick()} className="mt-2 bg-blue-500 text-white font-medium py-1 px-3 rounded hover:bg-blue-600">
                   Apply
                 </button>
               </div>

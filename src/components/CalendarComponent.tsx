@@ -7,18 +7,19 @@ import MyFormModal from '@/components/MyFormModal';
 import React from 'react';
 import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { convertEvents, getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
+import { RootState } from '@/store/store';
+
 
 
 
 
 interface IProps {
 
-    events: any[];  // Mảng các sự kiện
+    homeDataEvents: any[];  // Mảng các sự kiện
 }
-
-
-
-
 
 const CustomEvent: React.FC<EventProps<any>> = ({ event }) => {
 
@@ -56,24 +57,26 @@ const CalendarComponent = (props: IProps) => {
 
     const handleNavigate = (newDate: Date, view: View) => {
         setDate(newDate);
-        console.log("--------", date)
+
         router.push(`/student?classId=${searchParams.get("classId")}&currentDate=${format(newDate, 'MM-dd-yy')}`, undefined);
     };
 
     const customTimeGutterFormat = (date: Date): string => {
         const hour = date.getHours();
-        if (hour >= 7 && hour < 12) return 'Sáng';
-        if (hour >= 12 && hour < 17) return 'Chiều';
-        if (hour >= 17 && hour < 22) return 'Tối';
-        return '';
+        return getPartStringOfDay(hour);
     };
 
 
 
 
     const [openTrigger, setOpenTrigger] = useState(false)
-    const [newEventFormInitData,setNewEventFormInitData] = useState({})
-
+    const [eventsByClassId, setEventsByClassId] = useState({})
+    const [choosedCell, setChoosedCell] = useState({})
+    const dispatch = useAppDispatch();
+    const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
+    useEffect(() => {
+        dispatch(setEvents(props.homeDataEvents));
+    }, [dispatch, props.homeDataEvents]);
 
     useEffect(() => {
         // Fetch dữ liệu từ API khi classId thay đổi
@@ -83,10 +86,11 @@ const CalendarComponent = (props: IProps) => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
-           
+
                 const result: any = await response.json();
-                console.log(result);
-                setNewEventFormInitData(result) 
+                console.log(result)
+                dispatch(setEvents(props.homeDataEvents))
+                setEventsByClassId(result)
             } catch (error) {
                 console.log(error)
             }
@@ -94,8 +98,11 @@ const CalendarComponent = (props: IProps) => {
 
         fetchFormData();
     }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
-    console.log(props.events)
+    console.log(props.homeDataEvents)
 
+
+
+  
 
     return (
         <div>
@@ -112,7 +119,7 @@ const CalendarComponent = (props: IProps) => {
                 max={new Date(2025, 1, 0, 22, 0, 0)}
                 onView={handleOnChangeView}
                 localizer={localizer}
-                events={props.events}
+                events={convertEvents(eventsRedux.data)}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 600 }}
@@ -126,14 +133,30 @@ const CalendarComponent = (props: IProps) => {
 
                 }}
                 selectable
-                onSelectSlot={(a) => { setOpenTrigger(true); }} // Gọi hàm khi click vào slot
+                onSelectSlot={(a) => {
+
+                    setOpenTrigger(true);
+                    const currentDateTime = new Date(a.start)
+                    const currentDate = format(new Date(a.start), 'MM-dd-yy')
+                    const currentTime = currentDateTime.getHours();
+                    setChoosedCell(
+                        {
+                            day: currentDate,
+                            dayPartId: getPartIdOfDay(currentTime)
+                        }
+
+                    )
+
+                }} // Gọi hàm khi click vào slot
             />
             <MyFormModal
                 setOpenTrigger={setOpenTrigger}
                 openTrigger={openTrigger}
                 table="schedule"
                 type="update"
-                data={{newEventFormInitData}}
+                data={{
+                    eventsByClassId, choosedCell
+                }}
 
             />
         </div>

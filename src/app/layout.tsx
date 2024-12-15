@@ -4,13 +4,17 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lama Dev School Management Dashboard",
-  description: "Next.js School Management System",
+  title: "School Events Management",
+
 };
+const ReduxProvider = dynamic(() => import("@/store/redux-provider"), {
+  ssr: false
+});
 
 export default function RootLayout({
   children,
@@ -19,11 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+
       <html lang="en">
         <body className={inter.className}>
-          {children} <ToastContainer position="bottom-right" theme="dark" />
+          <ReduxProvider>  {children} <ToastContainer position="bottom-right" theme="dark" /></ReduxProvider>
         </body>
       </html>
+
     </ClerkProvider>
   );
 }

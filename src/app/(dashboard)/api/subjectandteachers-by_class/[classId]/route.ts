@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { classId: string } }
 ) {
   const { classId } = params; // Lấy giá trị classId từ URL
-  console.log(classId);
+
 
   try {
     const result: any = await prisma.$queryRaw<any[]>(

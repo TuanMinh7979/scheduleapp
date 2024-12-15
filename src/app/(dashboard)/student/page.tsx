@@ -1,6 +1,6 @@
 
 
-import { eventsData } from "@/lib/data";
+
 
 
 import MyFormModal from "@/components/MyFormModal";
@@ -9,6 +9,8 @@ import prisma from "@/lib/prisma";
 import { format } from 'date-fns';
 import { Prisma } from "@prisma/client";
 import CalendarComponent from "@/components/CalendarComponent";
+
+import { HomeDataEvent } from "@/lib/utils";
 
 interface InputEvent {
   id: number,
@@ -20,37 +22,8 @@ interface InputEvent {
   teacherName: string
 }
 
-interface OutputEvent {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
-}
-const convertEvents = (inputEvents: InputEvent[] | any[]): OutputEvent[] => {
-  console.log(inputEvents)
-  return inputEvents.map(item => {
-    const start = new Date(item.day); // Chuyển `day` sang kiểu `Date`
 
-    // Giả định thời gian bắt đầu và kết thúc
-    // Ví dụ: Tự động thêm 1 giờ kết thúc
-    const end = new Date(start);
 
-    end.setHours(start.getHours() + 10);
-    if (item.dayPartId == 1) {
-      start.setHours(7)
-      end.setHours(11)
-
-    } else if (item.dayPartId == 2) {
-      start.setHours(12)
-      end.setHours(16)
-    } else {
-      start.setHours(17)
-      end.setHours(21)
-    }
-
-    return { start, end, ...item };
-  });
-};
 
 
 const HomePage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
@@ -84,7 +57,7 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
   const { startDate, endDate } = getStartAndEndOfWeek(currentDate)
 
-  const eventsData = await prisma.$queryRaw<any[]>(
+  const homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
     Prisma.sql
       `SELECT
       e.id AS "id",
@@ -107,7 +80,9 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
 
-  console.log(eventsData);
+
+
+  // Truy cập data từ Redux store
 
 
   return (
@@ -116,7 +91,7 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
       <div className="border   w-9/12  ">
-        <CalendarComponent events={convertEvents(eventsData)} />
+        <CalendarComponent homeDataEvents={homeDataEvents} />
       </div>
 
 
