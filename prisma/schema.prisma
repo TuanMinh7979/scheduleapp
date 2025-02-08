@@ -45,10 +45,10 @@ model Teacher {
 model Event {
   id                   Int       @id @default(autoincrement()) // id là Int và tự tăng
   name                 String
-  day                  DateTime 
+  start                DateTime 
+  end                  DateTime 
   classId             Int
   subjectAndTeacherId Int
-  dayPartId           Int // Thêm trường dayPartId, kiểu Int
   mode                 String    @default("online")
 
 }
@@ -60,8 +60,3 @@ model SubjectAndTeacher {
   teacherId Int
 }
 
-// Model DayPart
-model DayPart {
-  id   Int    @id @default(autoincrement()) // id là Int và tự tăng
-  name String
-}

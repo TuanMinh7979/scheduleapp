@@ -7,7 +7,7 @@ import MyFormModal from '@/components/MyFormModal';
 import React from 'react';
 import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { convertEvents, getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
+import { getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
 import { RootState } from '@/store/store';
@@ -62,10 +62,6 @@ const CalendarComponent = (props: IProps) => {
         router.push(`/student?classId=${searchParams.get("classId")}&currentDate=${format(newDate, 'MM-dd-yy')}`, undefined);
     };
 
-    const customTimeGutterFormat = (date: Date): string => {
-        const hour = date.getHours();
-        return getPartStringOfDay(hour);
-    };
 
 
 
@@ -102,6 +98,7 @@ const CalendarComponent = (props: IProps) => {
         fetchFormData();
     }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
 
+    console.log(eventsRedux.data)
 
 
 
@@ -122,7 +119,7 @@ const CalendarComponent = (props: IProps) => {
                 max={new Date(2025, 1, 0, 22, 0, 0)}
                 onView={handleOnChangeView}
                 localizer={localizer}
-                events={convertEvents(eventsRedux.data)}
+                events={eventsRedux.data}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 600 }}
@@ -130,11 +127,11 @@ const CalendarComponent = (props: IProps) => {
                 onNavigate={handleNavigate} // Update date on navigation
                 step={300} //  số phút 1 ô
                 timeslots={1} // mỗi ô có 5 step
-                formats={{
-                    timeGutterFormat: (date, culture, localizer) => customTimeGutterFormat(date),
+                // formats={{
+                //     timeGutterFormat: (date, culture, localizer) => customTimeGutterFormat(date),
 
 
-                }}
+                // }}
                 selectable
                 onSelectSlot={(a) => {
 

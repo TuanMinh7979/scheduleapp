@@ -46,7 +46,9 @@ export const adjustScheduleToCurrentWeek = (
 
 
 export const getPartStringOfDay = (hourTime: number): string => {
+console.log(hourTime)
   if (hourTime >= 7 && hourTime < 12) return 'Sáng';
+  console.log("----------------------")
   if (hourTime >= 12 && hourTime < 17) return 'Chiều';
   if (hourTime >= 17 && hourTime < 22) return 'Tối';
 
@@ -80,29 +82,3 @@ export type AvaiSatByClassIdType = {
 }
 
 
-
-export const convertEvents = (inputEvents: InputEvent[] | any[]): any[] => {
-
-  return inputEvents.map(item => {
-    const start = new Date(item.day); // Chuyển `day` sang kiểu `Date`
-
-    // Giả định thời gian bắt đầu và kết thúc
-    // Ví dụ: Tự động thêm 1 giờ kết thúc
-    const end = new Date(start);
-
-    end.setHours(start.getHours() + 10);
-    if (item.dayPartId == 1) {
-      start.setHours(7)
-      end.setHours(11)
-
-    } else if (item.dayPartId == 2) {
-      start.setHours(12)
-      end.setHours(16)
-    } else {
-      start.setHours(17)
-      end.setHours(21)
-    }
-
-    return { start, end, ...item };
-  });
-};

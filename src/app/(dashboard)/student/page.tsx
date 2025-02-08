@@ -61,46 +61,57 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
   if (classId && parseInt(classId)) {
     calendarEvents = await prisma.$queryRaw<CalendarClassEvent[]>(
-      Prisma.sql
-        `SELECT
-      e.id AS "id",
-      e.name AS "name",
-      e.day AS "day",
-      e."classId" AS "classId",
-      e."dayPartId" AS "dayPartId",
-      e."mode" AS "mode",
-      s.name AS "subjectName",
-      t.name AS "teacherName"
+      Prisma.sql`
+        SELECT
+          e.id AS "id",
+          e.name AS "name",
+          e.day AS "day",
+          e."classId" AS "classId",
+          e."dayPartId" AS "dayPartId",
+          e."mode" AS "mode",
+          s.name AS "subjectName",
+          t.name AS "teacherName",
+          CASE
+            WHEN e."dayPartId" = 1 THEN e."day" + INTERVAL '6 hours'
+            WHEN e."dayPartId" = 2 THEN e."day" + INTERVAL '11 hours'
+            ELSE e."day" + INTERVAL '17 hours'
+          END AS "start"
 
-    FROM "Event" AS e
-    JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
-    JOIN "Subject" AS s ON st."subjectId" = s.id
-    JOIN "Teacher" AS t ON st."teacherId" = t.id
-WHERE
-    e."classId" = ${parseInt(classId)} AND 
-    e."day" BETWEEN ${startDate} AND ${endDate}
-    `
-    )
+        FROM "Event" AS e
+        JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
+        JOIN "Subject" AS s ON st."subjectId" = s.id
+        JOIN "Teacher" AS t ON st."teacherId" = t.id
+        WHERE
+          e."classId" = ${parseInt(classId)} AND 
+          e."day" BETWEEN ${startDate} AND ${endDate}
+      `
+    );
   } else {
     calendarEvents = await prisma.$queryRaw<CalendarClassEvent[]>(
-      Prisma.sql
-        `SELECT
-      e.id AS "id",
-      e.name AS "name",
-      e.day AS "day",
-      e."classId" AS "classId",
-      e."dayPartId" AS "dayPartId",
-      e."mode" AS "mode",
-      s.name AS "subjectName",
-      t.name AS "teacherName"
+      Prisma.sql`
+        SELECT
+          e.id AS "id",
+          e.name AS "name",
+          e.day AS "day",
+          e."classId" AS "classId",
+          e."dayPartId" AS "dayPartId",
+          e."mode" AS "mode",
+          s.name AS "subjectName",
+          t.name AS "teacherName",
+          CASE
+            WHEN e."dayPartId" = 1 THEN e."day" + INTERVAL '7 hours'
+            WHEN e."dayPartId" = 2 THEN e."day" + INTERVAL '12 hours'
+            ELSE e."day" + INTERVAL '17 hours'
+          END AS "start"
 
-    FROM "Event" AS e
-    JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
-    JOIN "Subject" AS s ON st."subjectId" = s.id
-    JOIN "Teacher" AS t ON st."teacherId" = t.id
-WHERE
-       e."day" BETWEEN ${startDate} AND ${endDate}
-    `)
+        FROM "Event" AS e
+        JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
+        JOIN "Subject" AS s ON st."subjectId" = s.id
+        JOIN "Teacher" AS t ON st."teacherId" = t.id
+        WHERE
+          e."day" BETWEEN ${startDate} AND ${endDate}
+      `
+    );
   }
 
 
