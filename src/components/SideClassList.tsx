@@ -19,14 +19,12 @@ const SideClassList = ({
   // Hàm này để chuyển hướng đến trang khác kèm `searchParams`
   const handleClassClick = (classId: number) => {
     // Chuyển đến trang `/class` với tham số search `classId`
-    router.push(`/student?classId=${classId}&currentDate=${searchParams.get("currentDate")}`, undefined);
+
+    const currentDate = searchParams.get("currentDate") || new Date()
+    router.push(`/student?classId=${classId}&currentDate=${currentDate}`, undefined);
   };
 
   return (
-
-
-
-
     <div className="flex flex-col items-start gap-2">
       {/* Ô tìm kiếm */}
       <input

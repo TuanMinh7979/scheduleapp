@@ -19,15 +19,15 @@ import { useFormState } from "react-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { setEvents, useAppDispatch, useAppSelector } from "@/store/events-slice";
-import { HomeDataEvent, AvaiSatByClassIdType } from "@/lib/utils";
+import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from "@/store/events-slice";
+import { CalendarClassEvents, AvaiSatByClassIdType } from "@/lib/utils";
 import { RootState } from "@/store/store";
 
 const EventForm = ({
   type,
   data,
   setOpen,
-  relatedData,
+
 }: {
   type: "create" | "update";
   data?: any;
@@ -81,7 +81,7 @@ const EventForm = ({
   const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
   const handleClick = (el: AvaiSatByClassIdType) => {
     console.log(eventsRedux.data)
-    const newEvent: HomeDataEvent = {
+    const newEvent: CalendarClassEvents = {
       satId: el.satId,            // ID của sự kiện
       // Tên của sự kiện
       classId: Number(searchParams.get("classId")),        // ID của lớp học
@@ -91,11 +91,20 @@ const EventForm = ({
       day: data.choosedCell.day,
       dayPartId: data.choosedCell.dayPartId
     }
-    console.log(newEvent)
-    console.log(data.avaiSatByClassId)
+
     dispatch(setEvents([
       ...eventsRedux.data, newEvent
     ]
+    ))
+    let eventsReduxAvaiLsByClassId = [...eventsRedux.avaiSatByClassIds]
+    let idx = eventsRedux.avaiSatByClassIds.findIndex(item => item.satId == el.satId);
+    if (idx !== -1 && eventsReduxAvaiLsByClassId[idx] && eventsReduxAvaiLsByClassId[idx].eventCnt) {
+      console.log("--------123")
+      eventsReduxAvaiLsByClassId[idx].eventCnt += 1; // Directly update
+    }
+
+    dispatch(setAvaiSatByClassIds(
+      eventsReduxAvaiLsByClassId
     ))
 
   }
@@ -106,7 +115,7 @@ const EventForm = ({
         {/* Phần bên trái (70%) */}
         <div className="flex-7 w-7/10 bg-gray-100 p-4 w-[70%] ">
           <div className="grid grid-cols-3 gap-4">
-            {data.avaiSatByClassId.map((el: AvaiSatByClassIdType) =>
+            {eventsRedux.avaiSatByClassIds.map((el: AvaiSatByClassIdType) =>
               <div className="w-full max-h-40 bg-white border border-gray-300 shadow-md rounded-lg p-4 flex flex-col justify-between overflow-hidden ">
                 {/* Phần thông tin chính */}
                 <div className="space-y-2 overflow-hidden text-ellipsis">

@@ -9,6 +9,8 @@ import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 
 import EventForm from "./forms/EventForm";
+import { useAppSelector } from "@/store/events-slice";
+import { RootState } from "@/store/store";
 
 
 
@@ -55,13 +57,7 @@ const MyFormModal = ({
   id,
   relatedData,
 }: MyFormContainerProps & { relatedData?: any }) => {
-  const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
-  const bgColor =
-    type === "create"
-      ? "bg-lamaYellow"
-      : type === "update"
-        ? "bg-lamaSky"
-        : "bg-lamaPurple";
+  
 
 
 

@@ -79,16 +79,7 @@ export type AvaiSatByClassIdType = {
   teacherName?: string; // Tên giáo viên
 }
 
-export type HomeDataEvent = {
-  id?: number;             // ID của sự kiện   // Tên của sự kiện
-  day?: string;            // Ngày (ISO 8601 format)
-  classId?: number;        // ID của lớp học
-  dayPartId?: number;      // ID của phần trong ngày (ví dụ: buổi sáng, chiều)
-  mode?: "online" | "offline"; // Chế độ học (chỉ nhận "online" hoặc "offline")
-  subjectName?: string;    // Tên môn học
-  teacherName?: string;    // Tên giáo viên
-  satId?: number
-};
+
 
 export const convertEvents = (inputEvents: InputEvent[] | any[]): any[] => {
 

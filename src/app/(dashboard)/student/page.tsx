@@ -3,14 +3,15 @@
 
 
 
-import MyFormModal from "@/components/MyFormModal";
+
 import SideClassList from "@/components/SideClassList";
 import prisma from "@/lib/prisma";
 import { format } from 'date-fns';
 import { Prisma } from "@prisma/client";
 import CalendarComponent from "@/components/CalendarComponent";
+import { CalendarClassEvents } from "../types";
 
-import { HomeDataEvent } from "@/lib/utils";
+
 
 interface InputEvent {
   id: number,
@@ -56,10 +57,10 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
   const { startDate, endDate } = getStartAndEndOfWeek(currentDate)
-  let homeDataEvents = []
+  let calendarEvents: CalendarClassEvents[] = [];
   console.log(classId)
   if (classId && parseInt(classId)) {
-    homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
+    calendarEvents = await prisma.$queryRaw<CalendarClassEvents[]>(
       Prisma.sql
         `SELECT
       e.id AS "id",
@@ -81,7 +82,7 @@ WHERE
     `
     )
   } else {
-    homeDataEvents = await prisma.$queryRaw<HomeDataEvent[]>(
+    calendarEvents = await prisma.$queryRaw<CalendarClassEvents[]>(
       Prisma.sql
         `SELECT
       e.id AS "id",
@@ -116,7 +117,7 @@ WHERE
 
 
       <div className="border   w-9/12  ">
-        <CalendarComponent homeDataEvents={homeDataEvents} />
+        <CalendarComponent calendarClassEvents={calendarEvents} />
       </div>
 
 

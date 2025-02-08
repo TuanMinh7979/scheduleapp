@@ -9,8 +9,9 @@ import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { convertEvents, getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
+import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
 import { RootState } from '@/store/store';
+import { CalendarClassEvents } from '@/app/(dashboard)/types';
 
 
 
@@ -18,7 +19,7 @@ import { RootState } from '@/store/store';
 
 interface IProps {
 
-    homeDataEvents: any[];  // Mảng các sự kiện
+    calendarClassEvents: CalendarClassEvents[];  // Mảng các sự kiện
 }
 
 const CustomEvent: React.FC<EventProps<any>> = ({ event }) => {
@@ -70,27 +71,31 @@ const CalendarComponent = (props: IProps) => {
 
 
     const [openTrigger, setOpenTrigger] = useState(false)
-    const [avaiSatByClassId, setAvaiSatByClassId] = useState({})
+    // const [avaiSatByClassId, setAvaiSatByClassId] = useState([])
     const [choosedCell, setChoosedCell] = useState({})
     const dispatch = useAppDispatch();
     const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
     useEffect(() => {
-        dispatch(setEvents(props.homeDataEvents));
-    }, [dispatch, props.homeDataEvents]);
+        dispatch(setEvents(props.calendarClassEvents));
+    }, [dispatch, props.calendarClassEvents]);
 
     useEffect(() => {
         // Fetch dữ liệu từ API khi classId thay đổi
         const fetchFormData = async () => {
             try {
-                const response = await fetch(`/api/subjectandteachers-by_class/${searchParams.get("classId")}`);
+                const response = await fetch(`/api/sats/${searchParams.get("classId")}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
 
                 const result: any = await response.json();
-        
-                dispatch(setEvents(props.homeDataEvents))
-                setAvaiSatByClassId(result)
+
+                dispatch(setEvents(props.calendarClassEvents))
+                dispatch(setAvaiSatByClassIds(result));
+
+
+                console.log("----------------------CalendarClassEventss", props.calendarClassEvents)
+                console.log("----------------------avaiSatByClassId", result)
             } catch (error) {
                 console.log(error)
             }
@@ -155,7 +160,7 @@ const CalendarComponent = (props: IProps) => {
                 table="schedule"
                 type="update"
                 data={{
-                    avaiSatByClassId, choosedCell
+                     choosedCell
                 }}
 
             />
@@ -165,3 +170,4 @@ const CalendarComponent = (props: IProps) => {
 
 
 export default CalendarComponent;
+
