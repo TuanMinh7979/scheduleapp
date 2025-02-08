@@ -20,7 +20,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from "@/store/events-slice";
-import { CalendarClassEvents, AvaiSatByClassIdType } from "@/lib/utils";
+import { CalendarClassEvent, AvaiSatByClassIdType } from "@/lib/utils";
 import { RootState } from "@/store/store";
 
 const EventForm = ({
@@ -80,8 +80,8 @@ const EventForm = ({
   const dispatch = useAppDispatch();
   const eventsRedux = useAppSelector((state: RootState) => state.events); // Truy cập data từ Redux store
   const handleClick = (el: AvaiSatByClassIdType) => {
-    console.log(eventsRedux.data)
-    const newEvent: CalendarClassEvents = {
+
+    const newEvent: CalendarClassEvent = {
       satId: el.satId,            // ID của sự kiện
       // Tên của sự kiện
       classId: Number(searchParams.get("classId")),        // ID của lớp học
@@ -99,7 +99,7 @@ const EventForm = ({
     let eventsReduxAvaiLsByClassId = [...eventsRedux.avaiSatByClassIds]
     let idx = eventsRedux.avaiSatByClassIds.findIndex(item => item.satId == el.satId);
     if (idx !== -1 && eventsReduxAvaiLsByClassId[idx] && eventsReduxAvaiLsByClassId[idx].eventCnt) {
-      console.log("--------123")
+  
       eventsReduxAvaiLsByClassId[idx].eventCnt += 1; // Directly update
     }
 

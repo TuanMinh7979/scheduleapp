@@ -9,7 +9,7 @@ import prisma from "@/lib/prisma";
 import { format } from 'date-fns';
 import { Prisma } from "@prisma/client";
 import CalendarComponent from "@/components/CalendarComponent";
-import { CalendarClassEvents } from "../types";
+import { CalendarClassEvent } from "../types";
 
 
 
@@ -57,10 +57,10 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
 
 
   const { startDate, endDate } = getStartAndEndOfWeek(currentDate)
-  let calendarEvents: CalendarClassEvents[] = [];
-  console.log(classId)
+  let calendarEvents: CalendarClassEvent[] = [];
+
   if (classId && parseInt(classId)) {
-    calendarEvents = await prisma.$queryRaw<CalendarClassEvents[]>(
+    calendarEvents = await prisma.$queryRaw<CalendarClassEvent[]>(
       Prisma.sql
         `SELECT
       e.id AS "id",
@@ -82,7 +82,7 @@ WHERE
     `
     )
   } else {
-    calendarEvents = await prisma.$queryRaw<CalendarClassEvents[]>(
+    calendarEvents = await prisma.$queryRaw<CalendarClassEvent[]>(
       Prisma.sql
         `SELECT
       e.id AS "id",

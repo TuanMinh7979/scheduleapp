@@ -11,7 +11,7 @@ import { convertEvents, getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
 import { RootState } from '@/store/store';
-import { CalendarClassEvents } from '@/app/(dashboard)/types';
+import { CalendarClassEvent } from '@/app/(dashboard)/types';
 
 
 
@@ -19,7 +19,7 @@ import { CalendarClassEvents } from '@/app/(dashboard)/types';
 
 interface IProps {
 
-    calendarClassEvents: CalendarClassEvents[];  // Mảng các sự kiện
+    calendarClassEvents: CalendarClassEvent[];  // Mảng các sự kiện
 }
 
 const CustomEvent: React.FC<EventProps<any>> = ({ event }) => {
@@ -94,16 +94,14 @@ const CalendarComponent = (props: IProps) => {
                 dispatch(setAvaiSatByClassIds(result));
 
 
-                console.log("----------------------CalendarClassEventss", props.calendarClassEvents)
-                console.log("----------------------avaiSatByClassId", result)
             } catch (error) {
-                console.log(error)
+
             }
         };
 
         fetchFormData();
     }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
-    console.log(eventsRedux)
+
 
 
 
@@ -160,7 +158,7 @@ const CalendarComponent = (props: IProps) => {
                 table="schedule"
                 type="update"
                 data={{
-                     choosedCell
+                    choosedCell
                 }}
 
             />

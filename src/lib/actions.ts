@@ -30,7 +30,7 @@ export const createSubject = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -55,7 +55,7 @@ export const updateSubject = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -75,7 +75,7 @@ export const deleteSubject = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -92,7 +92,7 @@ export const createClass = async (
     // revalidatePath("/list/class");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -112,7 +112,7 @@ export const updateClass = async (
     // revalidatePath("/list/class");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -132,7 +132,7 @@ export const deleteClass = async (
     // revalidatePath("/list/class");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -174,7 +174,7 @@ export const createTeacher = async (
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -220,7 +220,7 @@ export const updateTeacher = async (
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -242,7 +242,7 @@ export const deleteTeacher = async (
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -251,7 +251,7 @@ export const createStudent = async (
   currentState: CurrentState,
   data: StudentSchema
 ) => {
-  console.log(data);
+
   try {
     const classItem = await prisma.class.findUnique({
       where: { id: data.classId },
@@ -292,7 +292,7 @@ export const createStudent = async (
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -336,7 +336,7 @@ export const updateStudent = async (
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -358,7 +358,7 @@ export const deleteStudent = async (
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -396,7 +396,7 @@ export const createExam = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -437,7 +437,7 @@ export const updateExam = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
@@ -462,7 +462,7 @@ export const deleteExam = async (
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   
     return { success: false, error: true };
   }
 };
