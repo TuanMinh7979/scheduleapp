@@ -20,8 +20,9 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from "@/store/events-slice";
-import { CalendarClassEvent, AvaiSatByClassIdType } from "@/lib/utils";
+import { AvaiSatByClassIdType } from "@/lib/utils";
 import { RootState } from "@/store/store";
+import { CalendarClassEvent } from "@/app/(dashboard)/types";
 
 const EventForm = ({
   type,

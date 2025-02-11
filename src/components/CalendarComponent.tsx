@@ -7,7 +7,7 @@ import MyFormModal from '@/components/MyFormModal';
 import React from 'react';
 import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
+import { convertEvents, getPartIdOfDay, getPartStringOfDay } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAvaiSatByClassIds, setEvents, useAppDispatch, useAppSelector } from '@/store/events-slice';
 import { RootState } from '@/store/store';
@@ -99,6 +99,7 @@ const CalendarComponent = (props: IProps) => {
     }, [searchParams.get("classId")]); // Chạy lại khi classId thay đổi
 
     console.log(eventsRedux.data)
+    console.log("---------", convertEvents(eventsRedux.data))
 
 
 
@@ -119,7 +120,7 @@ const CalendarComponent = (props: IProps) => {
                 max={new Date(2025, 1, 0, 22, 0, 0)}
                 onView={handleOnChangeView}
                 localizer={localizer}
-                events={eventsRedux.data}
+                events={convertEvents(eventsRedux.data)}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 600 }}

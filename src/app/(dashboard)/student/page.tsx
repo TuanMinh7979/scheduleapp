@@ -65,25 +65,21 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
         SELECT
           e.id AS "id",
           e.name AS "name",
-          e.day AS "day",
+          e.start AS "start",
           e."classId" AS "classId",
-          e."dayPartId" AS "dayPartId",
+          e."end" AS "end",
           e."mode" AS "mode",
           s.name AS "subjectName",
-          t.name AS "teacherName",
-          CASE
-            WHEN e."dayPartId" = 1 THEN e."day" + INTERVAL '6 hours'
-            WHEN e."dayPartId" = 2 THEN e."day" + INTERVAL '11 hours'
-            ELSE e."day" + INTERVAL '17 hours'
-          END AS "start"
+          t.name AS "teacherName"
+   
 
         FROM "Event" AS e
         JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
         JOIN "Subject" AS s ON st."subjectId" = s.id
         JOIN "Teacher" AS t ON st."teacherId" = t.id
         WHERE
-          e."classId" = ${parseInt(classId)} AND 
-          e."day" BETWEEN ${startDate} AND ${endDate}
+          e."classId" = ${parseInt(classId)} 
+
       `
     );
   } else {
@@ -92,24 +88,19 @@ const HomePage = async ({ searchParams }: { searchParams: { [key: string]: strin
         SELECT
           e.id AS "id",
           e.name AS "name",
-          e.day AS "day",
+          e.start AS "start",
           e."classId" AS "classId",
-          e."dayPartId" AS "dayPartId",
+          e."end" AS "end",
           e."mode" AS "mode",
           s.name AS "subjectName",
-          t.name AS "teacherName",
-          CASE
-            WHEN e."dayPartId" = 1 THEN e."day" + INTERVAL '7 hours'
-            WHEN e."dayPartId" = 2 THEN e."day" + INTERVAL '12 hours'
-            ELSE e."day" + INTERVAL '17 hours'
-          END AS "start"
+          t.name AS "teacherName"
+         
 
         FROM "Event" AS e
         JOIN "SubjectAndTeacher" AS st ON e."subjectAndTeacherId" = st.id
         JOIN "Subject" AS s ON st."subjectId" = s.id
         JOIN "Teacher" AS t ON st."teacherId" = t.id
-        WHERE
-          e."day" BETWEEN ${startDate} AND ${endDate}
+  
       `
     );
   }

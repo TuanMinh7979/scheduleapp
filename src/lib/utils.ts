@@ -2,6 +2,8 @@
 // FOR THIS REASON WE'LL GET THE LAST WEEK AS THE REFERENCE WEEK.
 // IN THE TUTORIAL WE'RE TAKING THE NEXT WEEK AS THE REFERENCE WEEK.
 
+import moment from "moment";
+
 const getLatestMonday = (): Date => {
   const today = new Date();
   const dayOfWeek = today.getDay();
@@ -46,7 +48,7 @@ export const adjustScheduleToCurrentWeek = (
 
 
 export const getPartStringOfDay = (hourTime: number): string => {
-console.log(hourTime)
+  console.log(hourTime)
   if (hourTime >= 7 && hourTime < 12) return 'Sáng';
   console.log("----------------------")
   if (hourTime >= 12 && hourTime < 17) return 'Chiều';
@@ -81,4 +83,16 @@ export type AvaiSatByClassIdType = {
   teacherName?: string; // Tên giáo viên
 }
 
+export const convertEvents = (inputEvents: InputEvent[] | any[]): any[] => {
+  return inputEvents.map(item => {
 
+    const start = new Date(item.start);
+    const end = new Date(item.end);
+    start.setHours(start.getHours() - 7);
+    end.setHours(end.getHours() - 7);
+    console.log(start, end)
+
+
+    return { ...item, start, end };
+  });
+};

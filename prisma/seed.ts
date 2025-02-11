@@ -54,16 +54,16 @@ async function main() {
   const eventData: EventData[] = [
     {
       name: 'Math Class Event',
-      start: new Date('2025-02-08T07:00:00.000Z'),
-      end: new Date('2025-02-08T11:00:00.000Z'),
+      start: new Date('2025-02-09T07:00:00.000Z'),
+      end: new Date('2025-02-09T11:00:00.000Z'),
       classId: 1,
       subjectAndTeacherId: 1,
       mode: 'online',
     },
     {
       name: 'Physics Class Event',
-      start: new Date('2025-02-08T12:00:00.000Z'),
-      end: new Date('2025-02-08T16:00:00.000Z'),
+      start: new Date('2025-02-09T12:00:00.000Z'),
+      end: new Date('2025-02-09T16:00:00.000Z'),
       classId: 2,
       subjectAndTeacherId: 2,
       mode: 'offline',
